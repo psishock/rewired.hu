@@ -1,0 +1,54 @@
+<?php
+/**
+ * @file
+ * set and get views_user_options for the items_per_page value
+ * after a page reload.
+ */
+
+/**
+ * Implements hook_form_views_exposed_form_alter().
+ * Get/Set the value of items_per_page from/to the $_SESSION and put as default
+ * in the form
+ */
+function views_ripp_form_views_exposed_form_alter(&$form, &$form_state, $form_id){
+  global $_SESSION;
+  $view = $form_state['view'];
+  $display = $view->display_handler->display->id;
+  // If items_per_page exists in the $_SESSION
+  // SET the form default value.
+  if(isset($_SESSION['views_user_options'][$view->name][$display]['items_per_page'])){
+    $items_per_page = $_SESSION['views_user_options'][$view->name][$display]['items_per_page'];
+    $form['items_per_page']['#default_value'] = $items_per_page;
+  }
+  // Otherwise if there is a value in the $form_state (what means, that the form was submitted)
+  // Set for this a new value in the $_SESSION variable
+  if(isset($form_state['input']['items_per_page'])){
+    $items_per_page = $form_state['input']['items_per_page'];
+    $_SESSION['views_user_options'][$view->name][$display]['items_per_page'] = $items_per_page;
+    $form['items_per_page']['#default_value'] = $items_per_page;
+  }
+  // If the form is being reset, remove page from $_SESSION
+  if (isset($form_state['input']['op']) && $form_state['input']['op'] == 'Reset') {
+    if (isset($_SESSION['views_user_options'][$view->name][$display]['page'])) {
+      unset($_SESSION['views_user_options'][$view->name][$display]['page']);
+    }
+  // Otherwise, set the page in the $_SESSION object
+  } elseif (isset($_GET['page'])) {
+    $_SESSION['views_user_options'][$view->name][$display]['page'] = $_GET['page'];
+  }
+  return $form;
+}
+/**
+ * Implements hook_views_pre_build().
+ */
+function views_ripp_views_pre_build(&$view){
+  global $_SESSION;
+  $display = $view->display_handler->display->id;
+  $items_per_page = (isset($_SESSION['views_user_options'][$view->name][$display]['items_per_page']))?
+    $_SESSION['views_user_options'][$view->name][$display]['items_per_page']:$view->items_per_page;
+  $view->set_items_per_page($items_per_page);
+  // If a new page wasn't requested, use the page from the $_SESSION object if it exists
+  if (!isset($_GET['page']) && isset($_SESSION['views_user_options'][$view->name][$display]['page'])) {
+    $_GET['page'] = $_SESSION['views_user_options'][$view->name][$display]['page'];
+  }
+}

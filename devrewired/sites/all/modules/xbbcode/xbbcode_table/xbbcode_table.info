@@ -1,0 +1,13 @@
+name = Tables
+description = Allows themed tables out of BBCode
+dependencies[] = xbbcode
+package = Extensible BBCode
+core = 7.x
+
+
+; Information added by drupal.org packaging script on 2013-10-26
+version = "7.x-1.5+1-dev"
+core = "7.x"
+project = "xbbcode"
+datestamp = "1382797441"
+

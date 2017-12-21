@@ -1,0 +1,69 @@
+<?php
+
+/**
+ * @file
+ * FBConnect test environment configuration module.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function fbconnect_test_menu() {
+  $menu['fbconnect-test/init-fb-session'] = array(
+    'access callback' => TRUE,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('fbconnect_test_fb_session'),
+  );
+
+  return $menu;
+}
+
+function fbconnect_test_fb_session($form, &$form_state) {
+  $form['fbuid'] = array(
+    '#type' => 'textfield',
+    '#title' => 'FB UID',
+    '#required' => TRUE,
+  );
+
+  $form['access_token'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Access Token',
+    '#required' => TRUE,
+    '#maxlength' => 256,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Submit',
+  );
+
+  if (($fb_session = facebook_client_session()) && !empty($_SESSION['fbconnect_token'])) {
+    try {
+      $fb_user = fbconnect_graph_query('/me', array(), 'GET');
+      if (!empty($fb_user)) {
+        $fb_user = $fb_user->asArray();
+        $fbuid = $fb_user['id'];
+      }
+      else {
+        $fbuid = 0;
+      }
+    }
+    catch (Exception $e) {
+      $fbuid = 0;
+    }
+
+    if ($fbuid) {
+      $form['fbuid']['#default_value'] = $fbuid;
+      $form['access_token']['#default_value'] = $fb_session->getAccessToken();
+    }
+  }
+  return $form;
+}
+
+function fbconnect_test_fb_session_submit($form, &$form_state) {
+  $session = array(
+    'access_token' => $form_state['values']['access_token'],
+  );
+
+  $_SESSION['fbconnect_token'] = $session['access_token'];
+}

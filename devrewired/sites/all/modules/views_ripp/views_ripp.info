@@ -1,0 +1,6 @@
+name = Views - Remember Items per Page
+description = Save the Items per Page Option in the user Session.
+package = Views
+core = 7.x
+
+dependencies[] = views

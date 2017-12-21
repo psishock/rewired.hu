@@ -1,0 +1,13 @@
+name = AdvAgg CSS/JS Validator
+description = Validate the CSS & JS files used in Aggregation for syntax errors.
+package = Advanced CSS/JS Aggregation
+core = 7.x
+
+configure = admin/config/development/performance/advagg/validator
+
+; Information added by Drupal.org packaging script on 2015-05-26
+version = "7.x-2.10+7-dev"
+core = "7.x"
+project = "advagg"
+datestamp = "1432673007"
+

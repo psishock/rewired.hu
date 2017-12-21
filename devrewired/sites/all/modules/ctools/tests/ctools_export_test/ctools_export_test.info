@@ -1,0 +1,16 @@
+name = CTools export test
+description = CTools export test module
+core = 7.x
+package = Chaos tool suite
+version = CTOOLS_MODULE_VERSION
+dependencies[] = ctools
+hidden = TRUE
+
+files[] = ctools_export.test
+
+; Information added by Drupal.org packaging script on 2017-08-23
+version = "7.x-1.12+35-dev"
+core = "7.x"
+project = "ctools"
+datestamp = "1503512048"
+

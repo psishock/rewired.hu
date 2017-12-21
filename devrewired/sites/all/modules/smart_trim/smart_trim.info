@@ -1,0 +1,14 @@
+name = Smart Trim
+description = Provides a more robust alternative to "summary or trimmed" textfield format
+core = 7.x
+package = Fields
+
+files[] = smart_trim.module
+dependencies[] = filter
+dependencies[] = text
+; Information added by Drupal.org packaging script on 2015-01-27
+version = "7.x-1.4+5-dev"
+core = "7.x"
+project = "smart_trim"
+datestamp = "1422335581"
+

@@ -1,0 +1,100 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the fbconnect module.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function fbconnect_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+
+  if (!function_exists('curl_init')) {
+    $requirements['curl']['title'] = $t('cURL library');
+    $requirements['curl']['value'] = $t('Not installed');
+    $requirements['curl']['severity'] = REQUIREMENT_ERROR;
+    $requirements['curl']['description'] = $t('The cURL library is not installed. Please check the <a href="@url">PHP cURL documentation</a> for information on how to correct this.', array('@url' => 'http://www.php.net/manual/en/curl.setup.php'));
+  }
+
+  if (!function_exists('json_decode')) {
+    $requirements['json']['title'] = $t('JSON extension');
+    $requirements['json']['value'] = $t('Not installed');
+    $requirements['json']['severity'] = REQUIREMENT_ERROR;
+    $requirements['json']['description'] = $t('The JSON library is not installed. Facebook needs the JSON PHP extension');
+  }
+
+  if ($phase == 'runtime' || $phase == 'install') {
+    drupal_load('module', 'fbconnect');
+    _facebook_client_load_include();
+
+    $requirements['facebook-php-sdk-v4']['title'] = $t('Facebook PHP sdk v4');
+    if (!class_exists('Facebook\FacebookRequest')) {
+      $requirements['facebook-php-sdk-v4']['value'] = $t('Not installed');
+      $requirements['facebook-php-sdk-v4']['severity'] = REQUIREMENT_ERROR;
+      $requirements['facebook-php-sdk-v4']['description'] = $t('Fbconnect : Facebook PHP library not found. See README.txt');
+    }
+    elseif (!constant('Facebook\FacebookRequest::VERSION')) {
+      $requirements['facebook-php-sdk-v4']['value'] = $t('Outdated version');
+      $requirements['facebook-php-sdk-v4']['severity'] = REQUIREMENT_ERROR;
+      $requirements['facebook-php-sdk-v4']['description'] = $t('Fbconnect : Installed Facebook PHP library is outdated. See README.txt');
+    }
+    else {
+      $requirements['facebook-php-sdk-v4']['value'] = l(constant('Facebook\FacebookRequest::VERSION'), 'http://github.com/facebook/facebook-php-sdk-v4', array('external' => TRUE));
+      $requirements['facebook-php-sdk-v4']['severity'] = REQUIREMENT_OK;
+    }
+
+    if (!fbconnect_get_config()) {
+      $requirements['fbconnect_conf'] = array(
+        'title' => $t('FBConnect'),
+        'value' => $t('Not configured'),
+        'severity' => REQUIREMENT_WARNING,
+        'description' => $t('Please ensure that you entered Application ID and Secret Key. !link', array('!link' => l($t('Settings page'), 'admin/config/people/fbconnect'))),
+      );
+    }
+  }
+
+  return $requirements;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function fbconnect_uninstall() {
+  // Delete our module's variable from the variables table.
+  variable_del('fbconnect_appid');
+  variable_del('fbconnect_base_domaine');
+  variable_del('fbconnect_button');
+  variable_del('fbconnect_button_login_text');
+  variable_del('fbconnect_button_register_text');
+  variable_del('fbconnect_connect_url');
+  variable_del('fbconnect_debug');
+  variable_del('fbconnect_exclude_patterns');
+  variable_del('fbconnect_fast_reg');
+  variable_del('fbconnect_fast_reg_autoname');
+  variable_del('fbconnect_language_code');
+  variable_del('fbconnect_loginout_mode');
+  variable_del('fbconnect_namecounter');
+  variable_del('fbconnect_noroot');
+  variable_del('fbconnect_pic_allow');
+  variable_del('fbconnect_pic_size');
+  variable_del('fbconnect_pic_size_comments');
+  variable_del('fbconnect_pic_size_nodes');
+  variable_del('fbconnect_pic_size_profile');
+  variable_del('fbconnect_reg_display');
+  variable_del('fbconnect_reg_location');
+  variable_del('fbconnect_reg_options');
+  variable_del('fbconnect_skey');
+  variable_del('fbconnect_ssl');
+}
+
+/**
+ * Implements hook_update_N().
+ * Moved fbconnect_users schema to fbconnect_login module
+ */
+function fbconnect_update_7001() {
+  drupal_set_installed_schema_version('fbconnect_login', 7000);
+  module_enable(array('fbconnect_login'));
+}
