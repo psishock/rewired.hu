@@ -1,123 +1,43 @@
+RW Fejlesztői elérhetőségek:
 
-CONTENTS OF THIS FILE
----------------------
+Githubon végre fent van a legfrissebb lájtosított (2+giga helyett felhasználó és topik anyag nélküli), teljesen tiszta verzió, ami kb 50mega így:
+https://github.com/psishock/rewired.hu
 
- * About Drupal
- * Configuration and features
- * Installation profiles
- * Appearance
- * Developing for Drupal
+---------------------------------------------------------------------------------------
 
-ABOUT DRUPAL
-------------
+Telepítési lépések:
+1) A "devrewired" mappa anyagát komplett másoljátok át egy sima PHP barát (lokális) host alá.
+7.2 verzió alatt legyetek valahol.
+7.2-n teszteltem és nem fér össze a friss limitációkkal.
+Most itthon 7.1.x-en vagyok és minden okésan fest.
 
-Drupal is an open source content management platform supporting a variety of
-websites ranging from personal weblogs to large community-driven websites. For
-more information, see the Drupal website at http://drupal.org/, and join the
-Drupal community at http://drupal.org/community.
+2) a devrewired.sql-t meg töltsétek fel egy sima MySQL/MariaDB barát adatbázisra.
+Itthon 10.1.29-MariaDB-n teszteltem legfrissebben szóval szinte bármelyik MySQL fork verzsnnel mennie kellene.
 
-Legal information about Drupal:
- * Know your rights when using Drupal:
-   See LICENSE.txt in the same directory as this document.
- * Learn about the Drupal trademark and logo policy:
-   http://drupal.com/trademark
+3) állítsátok be az adatbázis hozzáférhetőség infókat a Drupálnak hogy tudjanak kommunikálni, a devrewired/sites/default/settings.php fájlban.
+Keressétek a database, username, password, stb opciókat a 213 sornál.
+Ez a file alapból írásvédettre van állítva, így azt kapcsoljátok át ha editálni akarjátok.
 
-CONFIGURATION AND FEATURES
---------------------------
+4) ennyi, innentől kóser kellene legyen. :)
 
-Drupal core (what you get when you download and extract a drupal-x.y.tar.gz or
-drupal-x.y.zip file from http://drupal.org/project/drupal) has what you need to
-get started with your website. It includes several modules (extensions that add
-functionality) for common website features, such as managing content, user
-accounts, image uploading, and search. Core comes with many options that allow
-site-specific configuration. In addition to the core modules, there are
-thousands of contributed modules (for functionality not included with Drupal
-core) available for download.
+én a XAMPP rendszert használom a lokális hostingra (ha valaki nem tudná honnan is kezdje és tippre van szüksége) a flexibilitásánál és kényelmességénél fogva, de nyomjátok amin akarjátok és megszoktátok.
+-------------------------------------------------------------------
 
-More about configuration:
- * Install, upgrade, and maintain Drupal:
-   See INSTALL.txt and UPGRADE.txt in the same directory as this document.
- * Learn about how to use Drupal to create your site:
-   http://drupal.org/documentation
- * Download contributed modules to sites/all/modules to extend Drupal's
-   functionality:
-   http://drupal.org/project/modules
- * See also: "Developing for Drupal" for writing your own modules, below.
+az általános és mindenható admin amivel be tudtok erre a fejlesztői RW-re lépni:
+username: admin
+password: password
 
-INSTALLATION PROFILES
----------------------
+aztán tetszés szerint változtathatjátok vagy hagyjátok így ahogy van.
 
-Installation profiles define additional steps (such as enabling modules,
-defining content types, etc.) that run after the base installation provided
-by core when Drupal is first installed. There are two basic installation
-profiles provided with Drupal core.
+-------------------------------------------------------------------
 
-Installation profiles from the Drupal community modify the installation process
-to provide a website for a specific use case, such as a CMS for media
-publishers, a web-based project tracking tool, or a full-fledged CRM for
-non-profit organizations raising money and accepting donations. They can be
-distributed as bare installation profiles or as "distributions". Distributions
-include Drupal core, the installation profile, and all other required
-extensions, such as contributed and custom modules, themes, and third-party
-libraries. Bare installation profiles require you to download Drupal Core and
-the required extensions separately; place the downloaded profile in the
-/profiles directory before you start the installation process. Note that the
-contents of this directory may be overwritten during updates of Drupal core;
-it is advised to keep code backups or use a version control system.
-
-Additionally, modules and themes may be placed inside subdirectories in a
-specific installation profile such as profiles/your_site_profile/modules and
-profiles/your_site_profile/themes respectively to restrict their usage to only
-sites that were installed with that specific profile.
-
-More about installation profiles and distributions:
- * Read about the difference between installation profiles and distributions:
-   http://drupal.org/node/1089736
- * Download contributed installation profiles and distributions:
-   http://drupal.org/project/distributions
- * Develop your own installation profile or distribution:
-   http://drupal.org/developing/distributions
-
-APPEARANCE
-----------
-
-In Drupal, the appearance of your site is set by the theme (themes are
-extensions that set fonts, colors, and layout). Drupal core comes with several
-themes. More themes are available for download, and you can also create your own
-custom theme.
-
-More about themes:
- * Download contributed themes to sites/all/themes to modify Drupal's
-   appearance:
-   http://drupal.org/project/themes
- * Develop your own theme:
-   http://drupal.org/documentation/theme
-
-DEVELOPING FOR DRUPAL
----------------------
-
-Drupal contains an extensive API that allows you to add to and modify the
-functionality of your site. The API consists of "hooks", which allow modules to
-react to system events and customize Drupal's behavior, and functions that
-standardize common operations such as database queries and form generation. The
-flexible hook architecture means that you should never need to directly modify
-the files that come with Drupal core to achieve the functionality you want;
-instead, functionality modifications take the form of modules.
-
-When you need new functionality for your Drupal site, search for existing
-contributed modules. If you find a module that matches except for a bug or an
-additional needed feature, change the module and contribute your improvements
-back to the project in the form of a "patch". Create new custom modules only
-when nothing existing comes close to what you need.
-
-More about developing:
- * Search for existing contributed modules:
-   http://drupal.org/project/modules
- * Contribute a patch:
-   http://drupal.org/patch/submit
- * Develop your own module:
-   http://drupal.org/developing/modules
- * Follow best practices:
-   http://drupal.org/best-practices
- * Refer to the API documentation:
-   http://api.drupal.org/api/drupal/7
+További hasznos útvonalak tájékozódni:
+devrewired/sites/default/files/hiriro <- hiriro FTP tárhely
+devrewired/sites/default/files/hiriro/gifthumbs <- a GIF animációk indítása előtti bélyegképek
+devrewired/sites/all/files <- RW ikonok, logók, stb
+devrewired/sites/all/modules <- minden core és custom Drupal modul amit használunk
+devrewired/sites/all/themes/responsive_bartik <- az RW komplett külalakjáért felelős cuccok itt vannak.
+devrewired/sites/all/themes/responsive_bartik/css <- azon belül a CSS fájlok
+devrewired/sites/all/themes/responsive_bartik/js <- javascript cuccok
+devrewired/sites/all/themes/responsive_bartik/templates <- a kulönféle generált PHP oldalak template-jei itt vannak.
+devrewired/sites/all/themes/responsive_bartik/php <- custom PHP funkciók (media beágyazás, stb)

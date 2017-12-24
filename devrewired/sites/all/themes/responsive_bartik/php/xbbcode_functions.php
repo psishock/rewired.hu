@@ -486,7 +486,8 @@ function rwUrlValidator ($orig_url) {
 }
 
 /* URL checker --------------------------------------------------------------------------------------------------------------------------------------------------------------- */
-function checkUrlType ($orig_url, $orig_headers) {
+function checkUrlType ($orig_url, $orig_headers, $reference_url) {
+	
 //check if url = Youtube
 if (preg_match('/(youtu\.be)|(youtube\.com\/watch)|(youtube\.com\/embed)/i', $orig_url)) {
 	$videotype = "youtube";
@@ -1679,6 +1680,10 @@ else if (preg_match('/(^.*\.webm|^.*\.mp4)/i', $orig_url)) {
 //format not recognised.
 else {
 	$videotype = "none";
+}
+
+if (isset($reference_url)) {
+	$orig_url = $reference_url;
 }
 
 $valuesArray = array(
