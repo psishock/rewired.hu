@@ -1,6 +1,8 @@
 <?php
 
 function media_tag($tag) {
+	global $base_url;
+	
 	require_once("./sites/all/themes/responsive_bartik/php/xbbcode_functions.php"); //custom functions
 
 	$default_background =  $base_url."/sites/all/files/rewired_og.jpg";
