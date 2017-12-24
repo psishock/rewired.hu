@@ -30,6 +30,7 @@ function media_tag($tag) {
 
 function checkUrlTypeContainer($orig_url) {
 	if (preg_match('/www\.reddit\.com/i', $orig_url)) {
+		$orig_url = strtok($orig_url, '?');
 		$json = file_get_contents($orig_url . "/.json");	
 		$json = json_decode($json, true);
 		$jsonUrl = $json[0]['data']['children'][0]['data']['url'];
